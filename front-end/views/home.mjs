@@ -19,6 +19,8 @@ import {createBloom} from "../components/bloom.mjs";
 
 // Home view - logged in or not
 function homeView() {
+    console.trace("HOME VIEW CALLED");
+
   destroy();
 
   if (state.isLoggedIn) {
