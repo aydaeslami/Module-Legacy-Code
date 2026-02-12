@@ -38,6 +38,7 @@ function profileView(username) {
     "login-template",
     createLogin
   );
+  
     document
       .querySelector("[data-form='login']")
       ?.addEventListener("submit", handleLogin);
