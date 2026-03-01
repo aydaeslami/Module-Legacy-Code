@@ -167,6 +167,31 @@ def send_bloom():
     )
 
 
+# === Rebloom Feature ===
+@jwt_required()
+def rebloom(bloom_id):
+    current_user = get_current_user()
+
+    # Check if the bloom exists
+    original_bloom = blooms.get_bloom(bloom_id)
+
+    if original_bloom is None:
+        return make_response(
+            jsonify({"success": False, "message": "Bloom not found"}), 404
+        )
+
+    # Create a new bloom from the original one
+    content = f"Rebloomed from @{original_bloom.sender}: {original_bloom.content}"
+
+    blooms.add_bloom(sender=current_user, content=content)
+
+    return jsonify(
+        {
+            "success": True,
+        }
+    )
+
+
 def get_bloom(id_str):
     try:
         id_int = int(id_str)
