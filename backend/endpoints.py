@@ -24,7 +24,6 @@ def login():
     type_check_error = verify_request_fields({"username": str, "password": str})
     if type_check_error is not None:
         return type_check_error
-    assert request.json is not None
     user = get_user(request.json["username"])
     if user is None:
         return make_response(({"success": False, "message": "Unknown user"}, 403))
@@ -258,10 +257,17 @@ def hashtag(hashtag):
 
 
 def verify_request_fields(names_to_types: Dict[str, type]) -> Union[Response, None]:
+    data = request.get_json(silent=True)
+
+    if data is None:
+        return make_response(
+            ({"success": False, "message": "Request body must be valid JSON"}, 400)
+        )
+
     for name, expected_type in names_to_types.items():
-        if name not in request.json:
+        if name not in data:
             return make_response((f"Request missing field: {name}", 400))
-        actual_type = type(request.json[name])
+        actual_type = type(data[name])
         if actual_type != expected_type:
             return make_response(
                 (
