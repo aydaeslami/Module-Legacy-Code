@@ -18,7 +18,6 @@ function hashtagView(hashtag) {
   destroy();
 
   if (state.currentHashtag !== hashtag) { // fetches only when the hashtag changes
-    state.updateState({ currentHashtag: hashtag });
     apiService.getBloomsByHashtag(hashtag);
   } 
   renderOne(
