@@ -182,8 +182,8 @@ def rebloom(bloom_id):
 
     # Create a new bloom from the original one
     # content = f"Rebloomed from @{original_bloom.sender}: {original_bloom.content}"
-
-    blooms.add_bloom(sender=current_user, content=original_bloom.content, rebloomed_from_id=original_bloom.id,)
+    rebloomed_from_id = original_bloom.rebloomed_from_id or original_bloom.id
+    blooms.add_bloom(sender=current_user, content=original_bloom.content,rebloomed_from_id=rebloomed_from_id,)
 
     return jsonify(
         {
